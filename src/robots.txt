@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://izi-habits.vercel.app/sitemap.xml
+
+# Rutas privadas
+Disallow: /profile/

@@ -1,0 +1,333 @@
+// Variables
+$sidebar-width: 280px
+$header-height: 64px
+$bottom-nav-height: 56px
+$primary-color: #7F56D9
+$primary-light: #F4F3FF
+$text-primary: #101828
+$text-secondary: #667085
+$border-color: #E4E7EC
+$shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05)
+$shadow-md: 0 2px 4px rgba(16, 24, 40, 0.06)
+$shadow-lg: 0 4px 6px -1px rgba(16, 24, 40, 0.1)
+$transition-speed: 0.3s
+$bottom-nav-bg: rgba(255, 255, 255, 0.95)
+
+// Mixins
+=flex-center
+  display: flex
+  align-items: center
+  justify-content: center
+
+=flex-between
+  display: flex
+  align-items: center
+  justify-content: space-between
+
+=card-shadow
+  box-shadow: $shadow-sm
+  transition: box-shadow $transition-speed ease
+  &:hover
+    box-shadow: $shadow-md
+
+// Keyframes
+@keyframes slideInUp
+  from
+    transform: translateY(20px)
+    opacity: 0
+  to
+    transform: translateY(0)
+    opacity: 1
+
+@keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+// Base Layout
+.app-container
+  display: flex
+  min-height: 100vh
+  background-color: #F9FAFB
+  position: relative
+  animation: fadeIn 0.5s ease-out
+
+// Mobile Header
+.mobile-header
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  height: $header-height
+  background: white
+  padding: 12px 16px
+  border-bottom: 1px solid $border-color
+  z-index: 10
+  display: flex
+  align-items: center
+  box-shadow: $shadow-sm
+  animation: slideInUp 0.5s ease-out
+
+  .user-profile
+    display: flex
+    align-items: center
+    gap: 12px
+
+    .profile-image
+      width: 40px
+      height: 40px
+      border-radius: 50%
+      overflow: hidden
+      border: 2px solid $primary-light
+      box-shadow: $shadow-sm
+      transition: transform $transition-speed ease
+      
+      &:hover
+        transform: scale(1.05)
+      
+      img
+        width: 100%
+        height: 100%
+        object-fit: cover
+
+    .user-info
+      h1
+        font-size: 18px
+        color: $text-primary
+        margin: 0
+        font-weight: 600
+        letter-spacing: -0.02em
+      p
+        font-size: 13px
+        color: $text-secondary
+        margin: 2px 0 0
+        font-weight: 400
+        letter-spacing: -0.01em
+
+// Desktop Sidebar
+.desktop-sidebar
+  width: $sidebar-width
+  background: white
+  border-right: 1px solid $border-color
+  padding: 28px
+  display: none
+  flex-direction: column
+  position: fixed
+  height: 100vh
+  box-shadow: $shadow-lg
+  animation: fadeIn 0.5s ease-out
+  
+  .sidebar-header
+    padding-bottom: 32px
+    border-bottom: 1px solid $border-color
+    margin-bottom: 8px
+    
+    .app-logo
+      h2
+        color: $primary-color
+        font-size: 26px
+        margin: 0
+        font-weight: 700
+        letter-spacing: -0.03em
+
+  .sidebar-nav
+    flex: 1
+    margin-top: 24px
+    display: flex
+    flex-direction: column
+    gap: 8px
+
+    .nav-item
+      display: flex
+      align-items: center
+      padding: 12px 16px
+      border-radius: 12px
+      color: $text-secondary
+      text-decoration: none
+      transition: all $transition-speed ease
+      border: 1px solid transparent
+      
+      &:hover
+        background: $primary-light
+        border-color: rgba($primary-color, 0.1)
+        transform: translateX(4px)
+      
+      &.active
+        background: $primary-light
+        color: $primary-color
+        border-color: rgba($primary-color, 0.2)
+        font-weight: 600
+      
+      .nav-icon
+        display: flex
+        align-items: center
+        justify-content: center
+        width: 32px
+        height: 32px
+        margin-right: 12px
+        border-radius: 8px
+        transition: all $transition-speed ease
+
+        ::ng-deep svg
+          width: 20px
+          height: 20px
+          stroke-width: 2
+          stroke: currentColor
+          transition: transform $transition-speed ease
+
+        &:hover ::ng-deep svg
+          transform: scale(1.1)
+      
+      span
+        font-size: 14px
+        font-weight: 500
+        letter-spacing: -0.01em
+
+  .sidebar-footer
+    padding-top: 24px
+    border-top: 1px solid $border-color
+    margin-top: 8px
+    
+    .user-profile-mini
+      display: flex
+      align-items: center
+      gap: 12px
+      padding: 12px
+      border-radius: 12px
+      transition: all $transition-speed ease
+      cursor: pointer
+
+      &:hover
+        background: $primary-light
+      
+      img
+        width: 36px
+        height: 36px
+        border-radius: 50%
+        border: 2px solid $primary-light
+      
+      .user-info
+        display: flex
+        flex-direction: column
+        
+        .username
+          font-size: 14px
+          color: $text-primary
+          font-weight: 600
+          letter-spacing: -0.01em
+        
+        .email
+          font-size: 12px
+          color: $text-secondary
+          margin-top: 2px
+
+// Main Content
+.main-content
+  flex: 1
+  padding: 16px
+  margin-top: $header-height
+  margin-bottom: calc(#{$bottom-nav-height} + 24px)
+  min-height: calc(100vh - #{$header-height} - #{$bottom-nav-height})
+  animation: fadeIn 0.5s ease-out
+
+// Bottom Navigation
+.bottom-nav
+  position: fixed
+  bottom: 8px
+  left: 8px
+  right: 8px
+  height: $bottom-nav-height
+  background: $bottom-nav-bg
+  backdrop-filter: blur(10px)
+  border: 1px solid rgba($border-color, 0.5)
+  display: flex
+  justify-content: space-around
+  align-items: center
+  padding: 4px
+  z-index: 10
+  border-radius: 14px
+  box-shadow: 0 4px 20px -1px rgba(16, 24, 40, 0.1)
+  animation: slideInUp 0.5s ease-out
+
+  &::before
+    content: ""
+    position: absolute
+    inset: 0
+    border-radius: 20px
+    padding: 1px
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)
+    -webkit-mask-composite: xor
+    mask-composite: exclude
+    pointer-events: none
+
+  .nav-item
+    position: relative
+    display: flex
+    flex-direction: column
+    align-items: center
+    text-decoration: none
+    color: $text-secondary
+    font-size: 12px
+    transition: all $transition-speed ease
+    padding: 8px 12px
+    border-radius: 10px
+    min-width: 60px
+    
+    &:hover
+      color: $primary-color
+      transform: translateY(-2px)
+    
+    &.active
+      color: $primary-color
+      font-weight: 500
+
+      &::after
+        content: ""
+        position: absolute
+        bottom: -6px
+        left: 25%
+        width: 50%
+        height: 2px
+        background: $primary-color
+        border-radius: 4px
+        animation: fadeIn 0.3s ease-out
+    
+    .nav-icon
+      display: flex
+      align-items: center
+      justify-content: center
+      width: 28px
+      height: 28px
+      margin-bottom: 4px
+      transition: all $transition-speed ease
+
+      ::ng-deep svg
+        width: 18px
+        height: 18px
+        stroke-width: 2
+        stroke: currentColor
+        transition: all $transition-speed ease
+
+    span
+      font-size: 11px
+      font-weight: 500
+      letter-spacing: -0.01em
+      margin-top: 1px
+      white-space: nowrap
+      transition: all $transition-speed ease
+
+// Desktop Media Query
+@media (min-width: 1024px)
+  .mobile-header, .bottom-nav
+    display: none
+  
+  .desktop-sidebar
+    display: flex
+  
+  .main-content
+    margin-left: $sidebar-width
+    margin-top: 0
+    margin-bottom: 0
+    padding: 32px

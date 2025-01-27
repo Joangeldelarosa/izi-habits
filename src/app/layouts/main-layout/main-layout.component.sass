@@ -1,0 +1,282 @@
+// Variables
+$sidebar-width: 280px
+$header-height: 80px
+$bottom-nav-height: 64px
+$primary-color: #7F56D9
+$primary-light: #F4F3FF
+$text-primary: #101828
+$text-secondary: #667085
+$border-color: #E4E7EC
+$shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05)
+$shadow-md: 0 2px 4px rgba(16, 24, 40, 0.06)
+$shadow-lg: 0 4px 6px -1px rgba(16, 24, 40, 0.1)
+$transition-speed: 0.3s
+$bottom-nav-bg: rgba(255, 255, 255, 0.95)
+
+// Breakpoints
+$mobile-sm: 320px  // iPhone 5s
+$mobile: 375px    // iPhone X
+$tablet: 768px    // iPad
+$desktop: 1024px  // Laptop
+$desktop-lg: 1440px // Desktop
+$desktop-xl: 1920px // Full HD
+$desktop-2k: 2560px // 2K
+$desktop-4k: 3840px // 4K
+
+// Mixins
+=flex-center
+  display: flex
+  align-items: center
+  justify-content: center
+
+=flex-between
+  display: flex
+  align-items: center
+  justify-content: space-between
+
+=card-shadow
+  box-shadow: $shadow-sm
+  transition: box-shadow $transition-speed ease
+  &:hover
+    box-shadow: $shadow-md
+
+=responsive-font($min-size, $max-size, $min-width: $mobile-sm, $max-width: $desktop)
+  font-size: $min-size
+  @media (min-width: $min-width)
+    font-size: calc(#{$min-size} + #{strip-unit($max-size - $min-size)} * ((100vw - #{$min-width}) / #{strip-unit($max-width - $min-width)}))
+  @media (min-width: $max-width)
+    font-size: $max-size
+
+// Base Layout
+.app-container
+  display: flex
+  min-height: 100vh
+  background-color: #F9FAFB
+  position: relative
+  animation: fadeIn 0.5s ease-out
+
+  @media (max-width: $desktop - 1px)
+    flex-direction: column
+
+// Mobile Header
+.mobile-header
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  height: $header-height
+  background: white
+  padding: 16px 20px
+  border-bottom: 1px solid $border-color
+  z-index: 50
+  display: flex
+  align-items: center
+  box-shadow: $shadow-sm
+  animation: slideInUp 0.5s ease-out
+
+  @media (min-width: $desktop)
+    display: none
+
+  .header-content
+    width: 100%
+    +flex-between
+
+    .app-logo
+      color: $primary-color
+      font-family: 'Plus Jakarta Sans', sans-serif
+      font-weight: 700
+      letter-spacing: -0.02em
+      margin: 0
+      +responsive-font(18px, 22px)
+
+// Desktop Sidebar
+.desktop-sidebar
+  width: $sidebar-width
+  height: 100vh
+  position: fixed
+  left: 0
+  top: 0
+  background: white
+  border-right: 1px solid $border-color
+  padding: 24px
+  display: flex
+  flex-direction: column
+  z-index: 40
+
+  @media (max-width: $desktop - 1px)
+    display: none
+
+  .app-logo
+    color: $primary-color
+    font-family: 'Plus Jakarta Sans', sans-serif
+    font-weight: 700
+    font-size: 24px
+    letter-spacing: -0.02em
+    margin-bottom: 32px
+
+  .sidebar-nav
+    flex: 1
+    display: flex
+    flex-direction: column
+    gap: 8px
+
+    .nav-item
+      display: flex
+      align-items: center
+      padding: 12px 16px
+      border-radius: 12px
+      color: $text-secondary
+      text-decoration: none
+      transition: all $transition-speed ease
+      border: 1px solid transparent
+      
+      &:hover
+        background: $primary-light
+        border-color: rgba($primary-color, 0.1)
+        transform: translateX(4px)
+      
+      &.active
+        background: $primary-light
+        color: $primary-color
+        border-color: rgba($primary-color, 0.2)
+        font-weight: 600
+      
+      .nav-icon
+        display: flex
+        align-items: center
+        justify-content: center
+        width: 32px
+        height: 32px
+        margin-right: 12px
+        border-radius: 8px
+        transition: all $transition-speed ease
+
+        ::ng-deep svg
+          width: 20px
+          height: 20px
+          stroke-width: 2
+          stroke: currentColor
+          transition: transform $transition-speed ease
+
+      span
+        font-weight: 500
+        letter-spacing: -0.01em
+        +responsive-font(14px, 16px)
+
+// Main Content
+.main-content
+  flex: 1
+  margin-left: $sidebar-width
+  padding: 32px
+  margin-bottom: calc(#{$bottom-nav-height} + 32px)
+  min-height: calc(100vh - #{$header-height})
+  max-width: 1600px
+  margin: 0 auto
+  width: 100%
+
+  @media (max-width: $desktop - 1px)
+    margin-left: 0
+    margin-top: $header-height
+    padding: 24px 16px
+
+  @media (min-width: $desktop-lg)
+    padding: 40px
+  
+  @media (min-width: $desktop-2k)
+    max-width: 2000px
+    padding: 48px
+
+  @media (min-width: $desktop-4k)
+    max-width: 2400px
+    padding: 64px
+
+// Bottom Navigation
+.bottom-nav
+  position: fixed
+  bottom: 12px
+  left: 12px
+  right: 12px
+  height: $bottom-nav-height
+  background: $bottom-nav-bg
+  backdrop-filter: blur(10px)
+  border: 1px solid rgba($border-color, 0.5)
+  display: flex
+  justify-content: space-around
+  align-items: center
+  padding: 4px
+  z-index: 40
+  border-radius: 16px
+  box-shadow: 0 4px 24px -1px rgba(16, 24, 40, 0.1)
+  animation: slideInUp 0.5s ease-out
+  max-width: 500px
+  margin: 0 auto
+
+  @media (min-width: $desktop)
+    display: none
+
+  @media (max-width: $mobile-sm)
+    bottom: 8px
+    left: 8px
+    right: 8px
+    height: 56px
+    border-radius: 12px
+
+  .nav-item
+    flex: 1
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 4px
+    color: $text-secondary
+    text-decoration: none
+    padding: 8px
+    border-radius: 12px
+    transition: all $transition-speed ease
+
+    &:hover, &.active
+      color: $primary-color
+      background: $primary-light
+
+    .nav-icon
+      width: 24px
+      height: 24px
+
+      @media (max-width: $mobile-sm)
+        width: 20px
+        height: 20px
+
+    span
+      font-size: 12px
+      font-weight: 500
+      
+      @media (max-width: $mobile-sm)
+        font-size: 10px
+
+// Animations
+@keyframes slideInUp
+  from
+    transform: translateY(20px)
+    opacity: 0
+  to
+    transform: translateY(0)
+    opacity: 1
+
+@keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+// Desktop Media Query
+@media (min-width: 1024px)
+  .mobile-header, .bottom-nav
+    display: none
+  
+  .desktop-sidebar
+    display: flex
+  
+  .main-content
+    margin-left: $sidebar-width
+    margin-top: 0
+    margin-bottom: 0
+    padding: 32px 

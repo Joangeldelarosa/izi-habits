@@ -1,7 +1,7 @@
 // Variables
 $sidebar-width: 280px
-$header-height: 80px
-$bottom-nav-height: 64px
+$header-height: 64px
+$bottom-nav-height: 68px
 $primary-color: #7F56D9
 $primary-light: #F4F3FF
 $text-primary: #101828
@@ -10,8 +10,9 @@ $border-color: #E4E7EC
 $shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05)
 $shadow-md: 0 2px 4px rgba(16, 24, 40, 0.06)
 $shadow-lg: 0 4px 6px -1px rgba(16, 24, 40, 0.1)
-$transition-speed: 0.3s
-$bottom-nav-bg: rgba(255, 255, 255, 0.95)
+$transition-speed: 0.25s
+$transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55)
+$bottom-nav-bg: rgba(255, 255, 255, 0.98)
 
 // Breakpoints
 $mobile-sm: 320px  // iPhone 5s
@@ -66,13 +67,15 @@ $desktop-4k: 3840px // 4K
   right: 0
   height: $header-height
   background: white
-  padding: 16px 20px
+  padding: clamp(12px, 3vw, 16px) clamp(16px, 4vw, 24px)
   border-bottom: 1px solid $border-color
   z-index: 50
   display: flex
   align-items: center
   box-shadow: $shadow-sm
-  animation: slideInUp 0.5s ease-out
+  animation: slideDown 0.4s ease-out
+  backdrop-filter: blur(8px)
+  background: rgba(255, 255, 255, 0.98)
 
   @media (min-width: $desktop)
     display: none
@@ -83,11 +86,15 @@ $desktop-4k: 3840px // 4K
 
     .app-logo
       color: $primary-color
-      font-family: 'Plus Jakarta Sans', sans-serif
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
       font-weight: 700
-      letter-spacing: -0.02em
+      letter-spacing: -0.03em
       margin: 0
-      +responsive-font(18px, 22px)
+      font-size: clamp(18px, 4vw, 24px)
+      transition: transform $transition-speed $transition-bounce
+      
+      &:active
+        transform: scale(0.95)
 
 // Desktop Sidebar
 .desktop-sidebar
@@ -98,127 +105,210 @@ $desktop-4k: 3840px // 4K
   top: 0
   background: white
   border-right: 1px solid $border-color
-  padding: 24px
+  padding: clamp(20px, 3vw, 32px) clamp(16px, 2vw, 24px)
   display: flex
   flex-direction: column
   z-index: 40
+  box-shadow: $shadow-sm
+  animation: slideInLeft 0.4s ease-out
 
   @media (max-width: $desktop - 1px)
     display: none
 
+  @media (min-width: $desktop-xl)
+    width: 320px
+
+  .sidebar-header
+    margin-bottom: clamp(24px, 4vh, 40px)
+
   .app-logo
-    color: $primary-color
-    font-family: 'Plus Jakarta Sans', sans-serif
-    font-weight: 700
-    font-size: 24px
-    letter-spacing: -0.02em
-    margin-bottom: 32px
+    h2
+      color: $primary-color
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
+      font-weight: 800
+      font-size: clamp(22px, 2vw, 28px)
+      letter-spacing: -0.03em
+      margin: 0
+      background: linear-gradient(135deg, $primary-color 0%, #9E77ED 100%)
+      -webkit-background-clip: text
+      -webkit-text-fill-color: transparent
+      background-clip: text
+      transition: transform $transition-speed ease
+      
+      &:hover
+        transform: scale(1.02)
 
   .sidebar-nav
     flex: 1
     display: flex
     flex-direction: column
-    gap: 8px
+    gap: clamp(6px, 1vh, 10px)
+    overflow-y: auto
+    padding-right: 8px
+
+    &::-webkit-scrollbar
+      width: 4px
+    
+    &::-webkit-scrollbar-thumb
+      background: $border-color
+      border-radius: 10px
 
     .nav-item
       display: flex
       align-items: center
-      padding: 12px 16px
-      border-radius: 12px
+      padding: clamp(10px, 1.5vh, 14px) clamp(12px, 2vw, 16px)
+      border-radius: clamp(10px, 1.5vw, 14px)
       color: $text-secondary
       text-decoration: none
       transition: all $transition-speed ease
       border: 1px solid transparent
+      position: relative
+      overflow: hidden
+      
+      &::before
+        content: ''
+        position: absolute
+        left: 0
+        top: 0
+        height: 100%
+        width: 0
+        background: linear-gradient(90deg, rgba($primary-color, 0.1) 0%, transparent 100%)
+        transition: width $transition-speed ease
       
       &:hover
         background: $primary-light
-        border-color: rgba($primary-color, 0.1)
-        transform: translateX(4px)
+        border-color: rgba($primary-color, 0.15)
+        transform: translateX(6px) scale(1.02)
+        
+        &::before
+          width: 100%
+        
+        .nav-icon ::ng-deep svg
+          transform: scale(1.15) rotate(5deg)
+      
+      &:active
+        transform: translateX(4px) scale(0.98)
       
       &.active
-        background: $primary-light
+        background: linear-gradient(135deg, $primary-light 0%, rgba($primary-color, 0.08) 100%)
         color: $primary-color
-        border-color: rgba($primary-color, 0.2)
+        border-color: rgba($primary-color, 0.25)
         font-weight: 600
+        box-shadow: 0 2px 8px rgba($primary-color, 0.15)
+        
+        &::before
+          width: 100%
+        
+        .nav-icon
+          background: rgba($primary-color, 0.1)
+          
+          ::ng-deep svg
+            animation: pulse 2s ease-in-out infinite
       
       .nav-icon
         display: flex
         align-items: center
         justify-content: center
-        width: 32px
-        height: 32px
-        margin-right: 12px
-        border-radius: 8px
+        width: clamp(28px, 4vw, 36px)
+        height: clamp(28px, 4vw, 36px)
+        margin-right: clamp(10px, 1.5vw, 14px)
+        border-radius: clamp(8px, 1vw, 10px)
         transition: all $transition-speed ease
+        flex-shrink: 0
 
         ::ng-deep svg
-          width: 20px
-          height: 20px
+          width: clamp(18px, 2.5vw, 22px)
+          height: clamp(18px, 2.5vw, 22px)
           stroke-width: 2
           stroke: currentColor
-          transition: transform $transition-speed ease
+          transition: transform $transition-speed $transition-bounce
 
       span
         font-weight: 500
         letter-spacing: -0.01em
-        +responsive-font(14px, 16px)
+        font-size: clamp(14px, 1.5vw, 16px)
+        white-space: nowrap
+  
+  .sidebar-footer
+    margin-top: auto
+    padding-top: clamp(16px, 2vh, 24px)
+    border-top: 1px solid $border-color
 
 // Main Content
 .main-content
   flex: 1
-  margin-left: $sidebar-width
-  padding: 32px
-  margin-bottom: calc(#{$bottom-nav-height} + 32px)
-  min-height: calc(100vh - #{$header-height})
-  max-width: 1600px
-  margin: 0 auto
+  min-height: 100vh
   width: 100%
+  animation: fadeIn 0.5s ease-out
 
   @media (max-width: $desktop - 1px)
-    margin-left: 0
     margin-top: $header-height
-    padding: 24px 16px
+    padding: clamp(16px, 4vw, 24px)
+    margin-bottom: calc(#{$bottom-nav-height} + 16px)
+    min-height: calc(100vh - #{$header-height} - #{$bottom-nav-height} - 16px)
+
+  @media (min-width: $desktop)
+    margin-left: $sidebar-width
+    padding: clamp(24px, 3vw, 40px)
+    max-width: calc(100vw - #{$sidebar-width})
 
   @media (min-width: $desktop-lg)
-    padding: 40px
+    padding: clamp(32px, 4vw, 48px)
   
+  @media (min-width: $desktop-xl)
+    margin-left: 320px
+    max-width: calc(100vw - 320px)
+    padding: clamp(40px, 5vw, 64px)
+
   @media (min-width: $desktop-2k)
-    max-width: 2000px
-    padding: 48px
+    padding: clamp(48px, 6vw, 80px)
 
   @media (min-width: $desktop-4k)
-    max-width: 2400px
-    padding: 64px
+    padding: clamp(64px, 7vw, 96px)
+
+  // Smooth scroll behavior
+  scroll-behavior: smooth
+  overflow-x: hidden
 
 // Bottom Navigation
 .bottom-nav
   position: fixed
-  bottom: 12px
-  left: 12px
-  right: 12px
+  bottom: clamp(12px, 3vw, 20px)
+  left: clamp(12px, 3vw, 20px)
+  right: clamp(12px, 3vw, 20px)
   height: $bottom-nav-height
   background: $bottom-nav-bg
-  backdrop-filter: blur(10px)
-  border: 1px solid rgba($border-color, 0.5)
+  backdrop-filter: blur(12px)
+  -webkit-backdrop-filter: blur(12px)
+  border: 1px solid rgba($border-color, 0.6)
   display: flex
   justify-content: space-around
   align-items: center
-  padding: 4px
-  z-index: 40
-  border-radius: 16px
-  box-shadow: 0 4px 24px -1px rgba(16, 24, 40, 0.1)
-  animation: slideInUp 0.5s ease-out
-  max-width: 500px
+  padding: clamp(4px, 1vw, 8px)
+  z-index: 50
+  border-radius: clamp(16px, 4vw, 24px)
+  box-shadow: 0 8px 32px -4px rgba(16, 24, 40, 0.12), 0 4px 16px -2px rgba(16, 24, 40, 0.08)
+  animation: slideUp 0.4s ease-out
+  max-width: min(500px, calc(100vw - 24px))
   margin: 0 auto
+  transition: transform $transition-speed ease, box-shadow $transition-speed ease
 
   @media (min-width: $desktop)
     display: none
 
-  @media (max-width: $mobile-sm)
+  @media (max-width: 360px)
     bottom: 8px
     left: 8px
     right: 8px
+    height: 60px
+    border-radius: 14px
+    padding: 4px
+
+  // Landscape phone optimization
+  @media (max-height: 500px) and (orientation: landscape)
     height: 56px
+    bottom: 8px
+    padding: 4px
     border-radius: 12px
 
   .nav-item
@@ -226,39 +316,126 @@ $desktop-4k: 3840px // 4K
     display: flex
     flex-direction: column
     align-items: center
-    gap: 4px
+    justify-content: center
+    gap: clamp(2px, 0.5vw, 4px)
     color: $text-secondary
     text-decoration: none
-    padding: 8px
-    border-radius: 12px
-    transition: all $transition-speed ease
-
-    &:hover, &.active
-      color: $primary-color
+    padding: clamp(6px, 1.5vw, 10px) clamp(4px, 1vw, 8px)
+    border-radius: clamp(12px, 3vw, 16px)
+    transition: all $transition-speed $transition-bounce
+    position: relative
+    min-height: 52px
+    
+    &::before
+      content: ''
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate(-50%, -50%) scale(0)
+      width: 90%
+      height: 90%
       background: $primary-light
+      border-radius: inherit
+      transition: transform $transition-speed $transition-bounce
+      z-index: -1
+
+    &:hover
+      color: darken($primary-color, 5%)
+      
+      &::before
+        transform: translate(-50%, -50%) scale(1)
+      
+      .nav-icon ::ng-deep svg
+        transform: translateY(-2px) scale(1.1)
+
+    &:active
+      transform: scale(0.95)
+      
+      .nav-icon ::ng-deep svg
+        transform: translateY(0) scale(0.95)
+
+    &.active
+      color: $primary-color
+      font-weight: 600
+      
+      &::before
+        transform: translate(-50%, -50%) scale(1)
+        background: linear-gradient(135deg, $primary-light 0%, rgba($primary-color, 0.12) 100%)
+      
+      .nav-icon
+        &::after
+          content: ''
+          position: absolute
+          bottom: -2px
+          left: 50%
+          transform: translateX(-50%)
+          width: 4px
+          height: 4px
+          background: $primary-color
+          border-radius: 50%
+          animation: pulse 2s ease-in-out infinite
+        
+        ::ng-deep svg
+          animation: bounce 1s ease-in-out
 
     .nav-icon
-      width: 24px
-      height: 24px
+      width: clamp(24px, 6vw, 28px)
+      height: clamp(24px, 6vw, 28px)
+      display: flex
+      align-items: center
+      justify-content: center
+      position: relative
+      transition: all $transition-speed ease
 
-      @media (max-width: $mobile-sm)
+      ::ng-deep svg
+        width: 100%
+        height: 100%
+        transition: transform $transition-speed $transition-bounce
+
+      @media (max-width: 360px)
+        width: 22px
+        height: 22px
+      
+      @media (max-height: 500px) and (orientation: landscape)
         width: 20px
         height: 20px
 
     span
-      font-size: 12px
+      font-size: clamp(10px, 2.5vw, 12px)
       font-weight: 500
+      letter-spacing: -0.01em
+      transition: all $transition-speed ease
+      white-space: nowrap
       
-      @media (max-width: $mobile-sm)
-        font-size: 10px
+      @media (max-width: 360px)
+        font-size: 9px
+      
+      @media (max-height: 500px) and (orientation: landscape)
+        display: none
 
 // Animations
-@keyframes slideInUp
+@keyframes slideUp
   from
-    transform: translateY(20px)
+    transform: translateY(100px)
     opacity: 0
   to
     transform: translateY(0)
+    opacity: 1
+
+@keyframes slideDown
+  from
+    transform: translateY(-50px)
+    opacity: 0
+  to
+    transform: translateY(0)
+    opacity: 1
+
+@keyframes slideInLeft
+  from
+    transform: translateX(-100%)
+    opacity: 0
+  to
+    transform: translateX(0)
     opacity: 1
 
 @keyframes fadeIn
@@ -267,16 +444,139 @@ $desktop-4k: 3840px // 4K
   to
     opacity: 1
 
-// Desktop Media Query
-@media (min-width: 1024px)
-  .mobile-header, .bottom-nav
-    display: none
-  
-  .desktop-sidebar
-    display: flex
+@keyframes pulse
+  0%, 100%
+    opacity: 1
+  50%
+    opacity: 0.6
+
+@keyframes bounce
+  0%, 100%
+    transform: translateY(0)
+  50%
+    transform: translateY(-4px)
+
+// Responsive adjustments for tablets in landscape
+@media (min-width: $tablet) and (max-width: $desktop - 1px) and (orientation: landscape)
+  .mobile-header
+    height: 56px
+    padding: 8px 20px
+    
+    .header-content .app-logo
+      font-size: 20px
   
   .main-content
-    margin-left: $sidebar-width
-    margin-top: 0
-    margin-bottom: 0
-    padding: 32px 
+    margin-top: 56px
+    padding: 20px 24px
+  
+  .bottom-nav
+    height: 60px
+    bottom: 10px
+    
+    .nav-item
+      min-height: 48px
+
+// iPad specific optimizations
+@media (min-width: $tablet) and (max-width: $desktop - 1px)
+  .main-content
+    max-width: 100%
+    padding: clamp(24px, 4vw, 40px)
+  
+  .bottom-nav
+    max-width: 600px
+
+// Large desktop optimizations
+@media (min-width: $desktop-lg)
+  .desktop-sidebar
+    .sidebar-nav .nav-item
+      padding: 14px 18px
+      
+      .nav-icon
+        width: 40px
+        height: 40px
+        
+        ::ng-deep svg
+          width: 24px
+          height: 24px
+      
+      span
+        font-size: 17px
+
+// Ultra-wide screen optimizations
+@media (min-width: $desktop-2k)
+  .desktop-sidebar
+    width: 340px
+    
+    .app-logo h2
+      font-size: 32px
+    
+    .sidebar-nav .nav-item
+      padding: 16px 20px
+      border-radius: 16px
+      
+      .nav-icon
+        width: 44px
+        height: 44px
+        margin-right: 16px
+        
+        ::ng-deep svg
+          width: 26px
+          height: 26px
+      
+      span
+        font-size: 18px
+  
+  .main-content
+    margin-left: 340px
+    max-width: calc(100vw - 340px)
+
+// 4K display optimizations
+@media (min-width: $desktop-4k)
+  .desktop-sidebar
+    width: 400px
+    padding: 48px 32px
+    
+    .app-logo h2
+      font-size: 36px
+    
+    .sidebar-nav
+      gap: 12px
+      
+      .nav-item
+        padding: 20px 24px
+        border-radius: 18px
+        
+        .nav-icon
+          width: 52px
+          height: 52px
+          margin-right: 20px
+          
+          ::ng-deep svg
+            width: 30px
+            height: 30px
+        
+        span
+          font-size: 20px
+  
+  .main-content
+    margin-left: 400px
+    max-width: calc(100vw - 400px)
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce)
+  *
+    animation-duration: 0.01ms !important
+    animation-iteration-count: 1 !important
+    transition-duration: 0.01ms !important
+  
+  .nav-item
+    &:hover
+      transform: none
+    
+    &.active .nav-icon ::ng-deep svg
+      animation: none
+
+// Dark mode support (future enhancement)
+@media (prefers-color-scheme: dark)
+  // Placeholder for dark mode styles
+  // Can be implemented later if needed

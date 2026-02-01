@@ -321,6 +321,17 @@
     font-size: clamp(14px, 3.5vw, 16px)
     line-height: 1.6
 
+// Small phone optimizations
+@media (max-width: 360px)
+  .page-header
+    margin-bottom: 12px
+  
+  .habits-list
+    gap: 12px
+  
+  .habit-card
+    padding: 18px
+
 // Tablet landscape optimizations
 @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape)
   .habits-container

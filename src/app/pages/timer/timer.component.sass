@@ -454,6 +454,17 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
   75%
     transform: rotate(15deg)
 
+// Small phone optimizations
+@media (max-width: 360px)
+  .page-header
+    margin-bottom: 12px
+  
+  .timer-card
+    padding: 18px 16px
+  
+  .timer-display .time
+    font-size: 44px
+
 // Tablet landscape optimizations
 @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape)
   .page-container

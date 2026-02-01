@@ -266,9 +266,10 @@ $desktop-4k: 3840px // 4K
   @media (min-width: $desktop-4k)
     padding: clamp(64px, 7vw, 96px)
 
-  // Smooth scroll behavior
-  scroll-behavior: smooth
-  overflow-x: hidden
+  &
+    // Smooth scroll behavior
+    scroll-behavior: smooth
+    overflow-x: hidden
 
 // Bottom Navigation
 .bottom-nav
@@ -406,6 +407,9 @@ $desktop-4k: 3840px // 4K
       letter-spacing: -0.01em
       transition: all $transition-speed ease
       white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+      max-width: 100%
       
       @media (max-width: 360px)
         font-size: 9px

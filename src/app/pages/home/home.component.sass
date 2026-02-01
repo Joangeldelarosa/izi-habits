@@ -309,6 +309,18 @@ $active-press: translateY(-1px) scale(0.98)
             height: clamp(14px, 3vw, 16px)
             animation: pulse 2s ease-in-out infinite
 
+// Small phone optimizations
+@media (max-width: 360px)
+  .page-header
+    margin-bottom: 16px
+  
+  .content-area .summary-cards
+    gap: 14px
+    
+    .card
+      min-height: 140px
+      padding: 18px
+
 // Tablet landscape optimizations
 @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape)
   .page-container

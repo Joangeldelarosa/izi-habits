@@ -166,7 +166,7 @@
 .habit-card
   background: var(--card-bg)
   border-radius: clamp(14px, 3vw, 18px)
-  padding: clamp(16px, 3vw, 20px)
+  padding: clamp(24px, 4vw, 28px)
   box-shadow: var(--card-shadow)
   transition: var(--transition)
   border: 1px solid transparent
@@ -223,10 +223,11 @@
       
       .description
         margin: clamp(4px, 1vh, 6px) 0 0
-        font-size: clamp(13px, 3vw, 15px)
+        font-size: clamp(14px, 3vw, 15px)
         color: var(--text-color)
         line-height: 1.5
         word-break: break-word
+        overflow-wrap: break-word
     
     .habit-actions
       display: flex
@@ -272,6 +273,9 @@
     font-size: clamp(11px, 2.5vw, 13px)
     font-weight: 600
     white-space: nowrap
+    max-width: 150px
+    overflow: hidden
+    text-overflow: ellipsis
 
 .habit-progress
   display: flex

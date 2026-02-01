@@ -1,8 +1,295 @@
-.profile-container
-  padding: 24px
-  h1
-    font-size: 24px
+// Profile Page - Enhanced Responsive Design
+:host
+  display: block
+  width: 100%
+  animation: fadeIn 0.4s ease-out
+
+.page-container
+  padding: 0
+  max-width: 100%
+  margin: 0 auto
+  
+  @media (min-width: 640px)
+    padding: clamp(8px, 2vw, 16px)
+    max-width: 700px
+  
+  @media (min-width: 1024px)
+    max-width: 800px
+
+.page-header
+  margin-bottom: clamp(20px, 4vh, 32px)
+  animation: slideDown 0.4s ease-out
+  
+  .header-main
+    display: flex
+    justify-content: space-between
+    align-items: center
+    
+    h1
+      font-size: clamp(22px, 5vw, 32px)
+      font-weight: 700
+      color: var(--gray-900)
+      margin: 0
+      letter-spacing: -0.02em
+      
+      @media (min-width: 640px)
+        font-size: clamp(24px, 4vw, 36px)
+
+.profile-card
+  background: white
+  border-radius: clamp(16px, 3vw, 24px)
+  padding: clamp(24px, 5vw, 40px)
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.1), 0 1px 2px rgba(16, 24, 40, 0.06)
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+  border: 1px solid transparent
+  animation: scaleIn 0.4s ease-out
+  
+  &:hover
+    box-shadow: 0 8px 16px -4px rgba(16, 24, 40, 0.12), 0 4px 8px -2px rgba(16, 24, 40, 0.08)
+    border-color: rgba(127, 86, 217, 0.1)
+
+.profile-header
+  margin-bottom: clamp(28px, 5vh, 40px)
+  text-align: center
+  position: relative
+
+  .avatar-section
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: clamp(16px, 3vw, 20px)
+
+    .avatar-container
+      position: relative
+      width: fit-content
+      animation: scaleIn 0.5s ease-out 0.2s both
+      
+      &:hover .camera-button
+        transform: scale(1.1) rotate(5deg)
+        box-shadow: 0 4px 12px rgba(127, 86, 217, 0.2)
+
+      .camera-button
+        position: absolute
+        bottom: clamp(-4px, -1vw, 0)
+        right: clamp(-4px, -1vw, 0)
+        display: flex
+        align-items: center
+        justify-content: center
+        width: clamp(36px, 8vw, 48px)
+        height: clamp(36px, 8vw, 48px)
+        background: linear-gradient(135deg, #7F56D9 0%, #6941C6 100%)
+        border: 3px solid white
+        border-radius: 50%
+        color: white
+        cursor: pointer
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)
+        box-shadow: 0 4px 12px rgba(127, 86, 217, 0.3)
+        z-index: 1
+        
+        &:hover
+          transform: scale(1.15) rotate(10deg)
+          box-shadow: 0 6px 16px rgba(127, 86, 217, 0.4)
+        
+        &:active
+          transform: scale(0.95)
+
+        lucide-icon
+          width: clamp(18px, 4vw, 24px)
+          height: clamp(18px, 4vw, 24px)
+
+.hidden
+  display: none !important
+
+.profile-info
+  display: flex
+  flex-direction: column
+  gap: clamp(20px, 4vh, 28px)
+
+.info-group
+  display: flex
+  flex-direction: column
+  gap: clamp(10px, 2vh, 14px)
+  animation: slideUp 0.4s ease-out both
+  
+  @for $i from 1 through 3
+    &:nth-child(#{$i})
+      animation-delay: #{0.1s + $i * 0.1}s
+  
+  label
+    display: flex
+    align-items: center
+    gap: clamp(8px, 2vw, 12px)
+    font-size: clamp(14px, 3.5vw, 16px)
     font-weight: 600
-    color: #101828
-    margin-bottom: 24px
-    letter-spacing: -0.02em 
+    color: var(--gray-700)
+    
+    lucide-icon
+      width: clamp(18px, 4vw, 20px)
+      height: clamp(18px, 4vw, 20px)
+      color: var(--primary-color)
+
+  .editable-field
+    display: flex
+    align-items: center
+    gap: clamp(10px, 2vw, 14px)
+    padding: clamp(12px, 2.5vw, 16px) clamp(14px, 3vw, 18px)
+    background: var(--gray-50)
+    border-radius: clamp(10px, 2vw, 14px)
+    border: 2px solid transparent
+    transition: all 0.3s ease
+    
+    &:hover
+      background: var(--gray-100)
+      
+      .edit-btn
+        opacity: 1
+        transform: scale(1)
+    
+    &.editing
+      background: white
+      border-color: var(--primary-color)
+      box-shadow: 0 0 0 3px rgba(127, 86, 217, 0.1)
+    
+    p
+      flex: 1
+      margin: 0
+      font-size: clamp(14px, 3.5vw, 16px)
+      color: var(--gray-900)
+      font-weight: 500
+      word-break: break-word
+    
+    input
+      flex: 1
+      border: none
+      background: transparent
+      font-size: clamp(14px, 3.5vw, 16px)
+      color: var(--gray-900)
+      font-weight: 500
+      outline: none
+      padding: 0
+      
+      &::placeholder
+        color: var(--gray-400)
+    
+    .edit-btn
+      background: white
+      border: 1px solid var(--gray-300)
+      padding: clamp(6px, 1.5vw, 8px)
+      border-radius: clamp(6px, 1.5vw, 8px)
+      cursor: pointer
+      display: flex
+      align-items: center
+      justify-content: center
+      color: var(--gray-600)
+      transition: all 0.3s ease
+      opacity: 0
+      transform: scale(0.9)
+      flex-shrink: 0
+      
+      @media (hover: none)
+        opacity: 1
+        transform: scale(1)
+      
+      lucide-icon
+        width: clamp(16px, 3.5vw, 18px)
+        height: clamp(16px, 3.5vw, 18px)
+      
+      &:hover
+        background: var(--primary-color)
+        border-color: var(--primary-color)
+        color: white
+        transform: scale(1.1)
+      
+      &:active
+        transform: scale(0.95)
+
+.delete-account-btn
+  margin-top: clamp(16px, 3vh, 24px)
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: clamp(8px, 2vw, 12px)
+  padding: clamp(12px, 2.5vw, 16px) clamp(16px, 3vw, 24px)
+  background: white
+  border: 2px solid #F04438
+  border-radius: clamp(10px, 2vw, 14px)
+  color: #F04438
+  font-weight: 600
+  font-size: clamp(14px, 3.5vw, 16px)
+  cursor: pointer
+  transition: all 0.3s ease
+  animation: slideUp 0.4s ease-out 0.5s both
+  
+  lucide-icon
+    width: clamp(18px, 4vw, 20px)
+    height: clamp(18px, 4vw, 20px)
+  
+  &:hover:not(:disabled)
+    background: #F04438
+    color: white
+    transform: translateY(-2px)
+    box-shadow: 0 6px 16px rgba(240, 68, 56, 0.3)
+  
+  &:active:not(:disabled)
+    transform: translateY(0) scale(0.98)
+  
+  &:disabled
+    opacity: 0.5
+    cursor: not-allowed
+
+// Tablet landscape optimizations
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape)
+  .page-container
+    padding: 16px 24px
+  
+  .profile-card
+    padding: 32px
+
+// Large desktop optimizations
+@media (min-width: 1440px)
+  .profile-card
+    padding: 48px
+    
+    &:hover
+      transform: translateY(-2px)
+
+// Animations
+@keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@keyframes slideDown
+  from
+    transform: translateY(-20px)
+    opacity: 0
+  to
+    transform: translateY(0)
+    opacity: 1
+
+@keyframes slideUp
+  from
+    transform: translateY(20px)
+    opacity: 0
+  to
+    transform: translateY(0)
+    opacity: 1
+
+@keyframes scaleIn
+  from
+    transform: scale(0.95)
+    opacity: 0
+  to
+    transform: scale(1)
+    opacity: 1
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce)
+  *
+    animation-duration: 0.01ms !important
+    transition-duration: 0.01ms !important
+  
+  .profile-card:hover,
+  .delete-account-btn:hover
+    transform: none

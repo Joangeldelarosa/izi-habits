@@ -1,0 +1,372 @@
+// Habits Page - Enhanced Responsive Design
+:host
+  display: block
+  width: 100%
+  --primary-color: #7F56D9
+  --primary-dark: #6941C6
+  --primary-light: #F4F3FF
+  --hover-color: #F9FAFB
+  --text-color: #667085
+  --card-bg: white
+  --card-shadow: 0 1px 3px rgba(16, 24, 40, 0.1), 0 1px 2px rgba(16, 24, 40, 0.06)
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+
+.habits-container
+  padding: 0
+  max-width: 100%
+  margin: 0 auto
+  animation: fadeIn 0.4s ease-out
+  
+  @media (min-width: 640px)
+    padding: clamp(8px, 2vw, 16px)
+    max-width: 900px
+  
+  @media (min-width: 1024px)
+    max-width: 1200px
+  
+  @media (min-width: 1440px)
+    max-width: 1400px
+
+.page-header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: clamp(16px, 3vh, 24px)
+  flex-wrap: wrap
+  gap: clamp(12px, 2vw, 16px)
+  animation: slideDown 0.4s ease-out
+  
+  h1
+    margin: 0
+    font-size: clamp(22px, 5vw, 32px)
+    font-weight: 700
+    color: var(--gray-900)
+    letter-spacing: -0.02em
+    
+    @media (min-width: 640px)
+      font-size: clamp(24px, 4vw, 36px)
+  
+  .header-actions
+    display: flex
+    gap: clamp(8px, 2vw, 12px)
+    align-items: center
+
+.btn-icon
+  background: white
+  border: 1px solid var(--gray-200)
+  padding: clamp(8px, 2vw, 12px)
+  cursor: pointer
+  display: flex
+  align-items: center
+  justify-content: center
+  color: var(--text-color)
+  border-radius: clamp(8px, 2vw, 12px)
+  transition: var(--transition)
+  box-shadow: var(--shadow-xs)
+  
+  &:hover
+    background: var(--hover-color)
+    transform: translateY(-2px)
+    box-shadow: var(--shadow-sm)
+    border-color: var(--primary-color)
+    color: var(--primary-color)
+  
+  &:active
+    transform: translateY(0) scale(0.98)
+
+.btn-primary
+  display: flex
+  align-items: center
+  gap: clamp(6px, 1.5vw, 10px)
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%)
+  color: white
+  border: none
+  padding: clamp(10px, 2vw, 14px) clamp(14px, 3vw, 20px)
+  border-radius: clamp(10px, 2vw, 14px)
+  cursor: pointer
+  font-weight: 600
+  transition: var(--transition)
+  white-space: nowrap
+  box-shadow: 0 4px 12px rgba(127, 86, 217, 0.25)
+  position: relative
+  overflow: hidden
+  
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: -100%
+    width: 100%
+    height: 100%
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)
+    transition: left 0.5s ease
+  
+  &:hover
+    transform: translateY(-2px)
+    box-shadow: 0 6px 16px rgba(127, 86, 217, 0.35)
+    
+    &::before
+      left: 100%
+  
+  &:active
+    transform: translateY(0) scale(0.98)
+  
+  .icon
+    width: clamp(18px, 4vw, 20px)
+    height: clamp(18px, 4vw, 20px)
+  
+  @media (max-width: 640px)
+    font-size: clamp(13px, 3vw, 15px)
+
+.filters
+  margin-bottom: clamp(16px, 3vh, 24px)
+  display: none
+  opacity: 0
+  transform: translateY(-10px)
+  transition: var(--transition)
+  
+  &.show
+    display: block
+    animation: slideDown 0.3s ease-out forwards
+    opacity: 1
+    transform: translateY(0)
+
+.tags-filter
+  display: flex
+  flex-wrap: wrap
+  gap: clamp(8px, 2vw, 12px)
+  margin-bottom: clamp(12px, 2vh, 16px)
+
+.tag
+  padding: clamp(6px, 1.5vw, 8px) clamp(12px, 3vw, 16px)
+  border-radius: clamp(14px, 3vw, 20px)
+  border: 1px solid transparent
+  font-size: clamp(12px, 3vw, 14px)
+  cursor: pointer
+  transition: var(--transition)
+  font-weight: 500
+  
+  &:hover
+    transform: translateY(-2px)
+    box-shadow: var(--shadow-sm)
+  
+  &:active
+    transform: scale(0.95)
+  
+  &.active
+    font-weight: 600
+    border-width: 2px
+    box-shadow: var(--shadow-sm)
+
+.habits-list
+  display: flex
+  flex-direction: column
+  gap: clamp(16px, 3vw, 20px)
+
+.habit-card
+  background: var(--card-bg)
+  border-radius: clamp(14px, 3vw, 18px)
+  padding: clamp(16px, 3vw, 20px)
+  box-shadow: var(--card-shadow)
+  transition: var(--transition)
+  border: 1px solid transparent
+  animation: scaleIn 0.3s ease-out
+  position: relative
+  overflow: hidden
+  
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 3px
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-light) 100%)
+    transform: scaleX(0)
+    transform-origin: left
+    transition: transform 0.4s ease
+  
+  &:hover
+    transform: translateY(-2px)
+    box-shadow: 0 8px 16px -4px rgba(16, 24, 40, 0.12), 0 4px 8px -2px rgba(16, 24, 40, 0.08)
+    border-color: rgba(127, 86, 217, 0.1)
+    
+    &::before
+      transform: scaleX(1)
+
+.habit-info
+  .habit-header
+    display: flex
+    justify-content: space-between
+    align-items: flex-start
+    margin-bottom: clamp(12px, 2vh, 16px)
+    gap: clamp(12px, 2vw, 16px)
+    
+    .habit-main
+      display: flex
+      gap: clamp(10px, 2vw, 14px)
+      align-items: flex-start
+      flex: 1
+      min-width: 0
+    
+    .habit-details
+      flex: 1
+      min-width: 0
+      
+      h3
+        margin: 0
+        font-size: clamp(15px, 3.5vw, 18px)
+        font-weight: 600
+        color: var(--gray-900)
+        letter-spacing: -0.01em
+        word-break: break-word
+      
+      .description
+        margin: clamp(4px, 1vh, 6px) 0 0
+        font-size: clamp(13px, 3vw, 15px)
+        color: var(--text-color)
+        line-height: 1.5
+        word-break: break-word
+    
+    .habit-actions
+      display: flex
+      gap: clamp(4px, 1vw, 6px)
+      flex-shrink: 0
+
+.complete-btn
+  background: none
+  border: none
+  padding: clamp(4px, 1vw, 6px)
+  cursor: pointer
+  display: flex
+  align-items: center
+  justify-content: center
+  border-radius: clamp(8px, 2vw, 10px)
+  transition: var(--transition)
+  flex-shrink: 0
+  
+  &:hover
+    background: var(--hover-color)
+    transform: scale(1.1)
+  
+  &:active
+    transform: scale(0.95)
+
+.habit-footer
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-top: clamp(12px, 2vh, 16px)
+  gap: clamp(12px, 2vw, 16px)
+  flex-wrap: wrap
+
+.habit-tags
+  display: flex
+  flex-wrap: wrap
+  gap: clamp(6px, 1vw, 8px)
+  flex: 1
+  
+  .tag
+    padding: clamp(4px, 1vw, 6px) clamp(10px, 2vw, 12px)
+    border-radius: clamp(12px, 2vw, 16px)
+    font-size: clamp(11px, 2.5vw, 13px)
+    font-weight: 600
+    white-space: nowrap
+
+.habit-progress
+  display: flex
+  align-items: center
+  gap: clamp(10px, 2vw, 14px)
+  flex-shrink: 0
+  
+  .streak-badge
+    padding: clamp(4px, 1vw, 6px) clamp(8px, 2vw, 12px)
+    background: linear-gradient(135deg, #FEF3F2 0%, #FECDCA 100%)
+    color: #B42318
+    border-radius: clamp(12px, 2vw, 16px)
+    font-size: clamp(11px, 2.5vw, 13px)
+    font-weight: 700
+    white-space: nowrap
+    box-shadow: 0 2px 6px rgba(180, 35, 24, 0.15)
+    animation: pulse 2s ease-in-out infinite
+  
+  .progress-text
+    font-size: clamp(12px, 3vw, 14px)
+    color: var(--text-color)
+    font-weight: 500
+    white-space: nowrap
+
+.empty-state
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  padding: clamp(40px, 8vw, 60px) clamp(20px, 4vw, 32px)
+  text-align: center
+  background: var(--card-bg)
+  border-radius: clamp(16px, 3vw, 24px)
+  box-shadow: var(--card-shadow)
+  margin: clamp(24px, 5vh, 40px) auto
+  max-width: 480px
+  animation: scaleIn 0.4s ease-out
+  border: 1px dashed var(--gray-300)
+  
+  p
+    color: var(--text-color)
+    margin-bottom: clamp(20px, 4vh, 28px)
+    font-size: clamp(14px, 3.5vw, 16px)
+    line-height: 1.6
+
+// Tablet landscape optimizations
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape)
+  .habits-container
+    padding: 16px 24px
+  
+  .habits-list
+    gap: 18px
+
+// Large desktop optimizations
+@media (min-width: 1440px)
+  .habit-card
+    padding: 24px
+    
+    &:hover
+      transform: translateY(-4px)
+
+// Animations
+@keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@keyframes slideDown
+  from
+    transform: translateY(-20px)
+    opacity: 0
+  to
+    transform: translateY(0)
+    opacity: 1
+
+@keyframes scaleIn
+  from
+    transform: scale(0.95)
+    opacity: 0
+  to
+    transform: scale(1)
+    opacity: 1
+
+@keyframes pulse
+  0%, 100%
+    opacity: 1
+  50%
+    opacity: 0.85
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce)
+  *
+    animation-duration: 0.01ms !important
+    transition-duration: 0.01ms !important
+  
+  .habit-card:hover
+    transform: none

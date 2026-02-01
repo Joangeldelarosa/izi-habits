@@ -8,7 +8,7 @@
   --hover-color: #F9FAFB
   --text-color: #667085
   --card-bg: white
-  --card-shadow: 0 1px 3px rgba(16, 24, 40, 0.1), 0 1px 2px rgba(16, 24, 40, 0.06)
+  --card-shadow: var(--shadow-sm)
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
 
 .habits-container
@@ -188,7 +188,7 @@
   
   &:hover
     transform: translateY(-2px)
-    box-shadow: 0 8px 16px -4px rgba(16, 24, 40, 0.12), 0 4px 8px -2px rgba(16, 24, 40, 0.08)
+    box-shadow: var(--shadow-hover-md)
     border-color: rgba(127, 86, 217, 0.1)
     
     &::before
@@ -332,10 +332,28 @@
 // Large desktop optimizations
 @media (min-width: 1440px)
   .habit-card
-    padding: 24px
+    padding: 28px
     
     &:hover
       transform: translateY(-4px)
+
+// Full HD optimizations
+@media (min-width: 1920px)
+  .habits-container
+    max-width: 1600px
+  
+  .habit-card
+    padding: 32px
+    border-radius: 20px
+
+// 2K optimizations
+@media (min-width: 2560px)
+  .habits-container
+    max-width: 2000px
+  
+  .habit-card
+    padding: 36px
+    border-radius: 24px
 
 // Animations
 @keyframes fadeIn

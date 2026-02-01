@@ -253,6 +253,23 @@
     &:hover
       transform: translateY(-2px)
 
+// Full HD optimizations
+@media (min-width: 1920px)
+  .page-container
+    max-width: 1000px
+  
+  .profile-card
+    padding: 56px
+
+// 2K optimizations
+@media (min-width: 2560px)
+  .page-container
+    max-width: 1200px
+  
+  .profile-card
+    padding: 64px
+    border-radius: 28px
+
 // Animations
 @keyframes fadeIn
   from

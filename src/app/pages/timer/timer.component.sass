@@ -465,6 +465,23 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
   .timer-display .time
     font-size: 80px
 
+// Full HD optimizations
+@media (min-width: 1920px)
+  .page-container
+    max-width: 1400px
+  
+  .timer-card
+    padding: 56px 48px
+
+// 2K optimizations
+@media (min-width: 2560px)
+  .page-container
+    max-width: 1600px
+  
+  .timer-card
+    padding: 64px 56px
+    border-radius: 36px
+
 // Reduced motion support
 @media (prefers-reduced-motion: reduce)
   *

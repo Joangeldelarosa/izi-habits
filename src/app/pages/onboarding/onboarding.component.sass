@@ -245,6 +245,24 @@
       transform: translateY(-4px)
       box-shadow: 0 24px 72px -12px rgba(127, 86, 217, 0.18), 0 12px 36px -6px rgba(16, 24, 40, 0.1)
 
+// Large desktop optimizations
+@media (min-width: 1440px)
+  .onboarding-content
+    padding: 72px 64px
+
+// Full HD optimizations
+@media (min-width: 1920px)
+  .onboarding-content
+    max-width: 680px
+    padding: 80px 72px
+
+// 2K optimizations
+@media (min-width: 2560px)
+  .onboarding-content
+    max-width: 800px
+    padding: 96px 88px
+    border-radius: 40px
+
 // Animations
 @keyframes fadeIn
   from
